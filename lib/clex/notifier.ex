@@ -15,11 +15,16 @@ defmodule Clex.Notifier do
     end
 
     defp create_message(%{price: price, title: title, link: link}) do
-        "#{price} - #{title}%0a#{link}"
+        "$#{price} - #{title_and_link_msg(title, link, String.length(price) + 4)}"
     end
 
     defp create_message(%{title: title, link: link}) do
-        "#{title}%0a#{link}"        
+        title_and_link_msg(title, link, 0)
+    end
+
+    defp title_and_link_msg(title, link, offset \\ 0) do
+        title_length = 160 - 37 - offset - String.length(link)
+        "#{String.slice(title, 0, title_length)}%0a#{link}"
     end
 
     defp send_message(msg) do
