@@ -30,3 +30,5 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 #config :hound, driver: "chrome_driver"
+
+config :sms_blitz, twilio: {System.get_env("TWILIO_SID"), System.get_env("TWILIO_AUTH")}

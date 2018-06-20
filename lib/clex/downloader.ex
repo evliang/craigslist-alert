@@ -1,13 +1,18 @@
 defmodule Clex.Downloader do
+
+    def download_rss([category|keywords]) do
+        "https://portland.craigslist.org/search/#{category}?format=rss&query=#{Enum.join(keywords,"%20")}"
+        |> get_url
+    end
     
-    def get_url(url) do
+    defp get_url(url) do
         url
         |> URI.encode
         |> String.replace("%25", "%") #in case we're already dealing with %20, etc in URL
         |> get_poison
     end
     
-    def get_poison(url) do
+    defp get_poison(url) do
         try do
           HTTPoison.get(url,
             ["User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Mobile Safari/537.36",
@@ -29,9 +34,9 @@ defmodule Clex.Downloader do
         end)
     
         if gzipped do
-            {:ok, %{resp | body: :zlib.gunzip(resp.body)}}
+            %{resp | body: :zlib.gunzip(resp.body)}
         else
-            {:ok, resp}
+            resp
         end
     end
     

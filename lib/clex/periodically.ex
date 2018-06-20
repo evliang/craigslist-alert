@@ -11,9 +11,22 @@ defmodule Clex.Periodically do
       {:ok, state}
     end
   
-    def handle_info(:trimet, state) do
-      schedule_trimet()
-      {:noreply, state}
+    def handle_info(:fetchrss, state) do
+        Clex.Parser.read()
+        |> Enum.each(fn x ->
+            Clex.Downloader.download_rss(x)
+            |> Clex.Extractor.extract_links_from_rss
+            |> Clex.Storer.store
+            :timer.sleep(1000) #todo: code smell
+        end)
+        schedule_rss()
+        {:noreply, state}
+    end
+
+    def handle_info(:notify, state) do
+        #Clex.Notifier.notify()
+        schedule_notifier()
+        {:noreply, state}
     end
 
     def handle_info(part1, state) do
@@ -23,11 +36,16 @@ defmodule Clex.Periodically do
     end
   
     defp schedule_work() do
-        schedule_trimet()
+        schedule_rss()
+        schedule_notifier()
     end
 
-    defp schedule_trimet() do
-      Process.send_after(self(), :trimet, 30 * 1000)
+    defp schedule_rss() do
+      Process.send_after(self(), :fetchrss, (5 + :rand.uniform(10)) * 60000)
+    end
+
+    defp schedule_notifier() do
+        Process.send_after(self(), :notify, 5 * 1000)
     end
 
     defp schedule_stocks() do

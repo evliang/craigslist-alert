@@ -14,7 +14,7 @@ defmodule Clex.Mixfile do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :redix],
+      extra_applications: [:logger, :redix, :sms_blitz],
       mod: {Clex.Application, []}
     ]
   end
@@ -23,8 +23,9 @@ defmodule Clex.Mixfile do
   defp deps do
     [
       {:redix, ">= 0.0.0 "},
-      {:httpoison, ">= 1.2.0"},
-      {:floki, ">= 0.0.0"}
+      {:httpoison, ">= 1.2.0", override: true},
+      {:floki, ">= 0.0.0"},
+      {:sms_blitz, "~> 0.2.0"}
       #{:hound, "~> 1.0"}
 
       # {:dep_from_hexpm, "~> 0.3.0"},
