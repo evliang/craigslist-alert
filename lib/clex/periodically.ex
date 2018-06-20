@@ -24,7 +24,7 @@ defmodule Clex.Periodically do
     end
 
     def handle_info(:notify, state) do
-        #Clex.Notifier.notify()
+        Clex.Notifier.notify()
         schedule_notifier()
         {:noreply, state}
     end
