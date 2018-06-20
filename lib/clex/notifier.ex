@@ -19,12 +19,13 @@ defmodule Clex.Notifier do
     end
 
     defp create_message(%{title: title, link: link}) do
-        title_and_link_msg(title, link, 0)
+        title_and_link_msg(title, link)
     end
 
     defp title_and_link_msg(title, link, offset \\ 0) do
-        title_length = 160 - 37 - offset - String.length(link)
-        "#{String.slice(title, 0, title_length)}%0a#{link}"
+        #160-twilio sms limit. 37-text related to trial. 2-newline
+        title_length = 160 - 37 - offset - 2 - String.length(link)
+        "#{String.slice(title, 0, title_length)}\n#{link}"
     end
 
     defp send_message(msg) do
