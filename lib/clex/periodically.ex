@@ -40,23 +40,22 @@ defmodule Clex.Periodically do
         schedule_notifier()
     end
 
+    #the idea is to check less frequently when we're sleeping
+    defp define_rss_times() do
+        case :calendar.local_time do
+            {_, {x, _, _}} when x < 5 or x > 21 ->
+                {120, 30}
+            _ ->
+                {5, 10}
+        end
+    end
+
     defp schedule_rss() do
-      Process.send_after(self(), :fetchrss, (5 + :rand.uniform(10)) * 60000)
+        { min_time, interval } = define_rss_times()
+        Process.send_after(self(), :fetchrss, (min_time + :rand.uniform(interval)) * 60000)
     end
 
     defp schedule_notifier() do
-        Process.send_after(self(), :notify, 5 * 1000)
+        Process.send_after(self(), :notify, 10 * 1000)
     end
-
-    defp schedule_stocks() do
-      # now = Timex.local
-      # next_time =
-      #   case {Timex.weekday(now), now.hour } do
-      #     {x, y} when x >= 6 or (x == 5 and y > 13) -> now |> Timex.end_of_week |> Timex.shift(hours: 6, minutes: 30)
-      #     {_, y} when y < 6 -> now |> Timex.beginning_of_day |> Timex.shift(hours: 6, minutes: 30)
-      #     {_, y} when y > 13 -> now |> Timex.end_of_day |> Timex.shift(hours: 6, minutes: 30)
-      #     _ -> Timex.shift(now, seconds: 30)
-      #   end
-      Process.send_after(self(), :stocks, 30 * 1000)
-    end
-  end
+end
