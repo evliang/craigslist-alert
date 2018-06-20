@@ -13,7 +13,7 @@ defmodule Clex.Storer do
         case Redix.command!(:redix, ["ZSCORE", "links", link]) do
             nil ->
                 Redix.command!(:redix, ["ZADD", "links", DateTime.utc_now |> DateTime.to_unix, link])
-                Redix.command!(:redix, ["RPUSH", "notifs", item |> :erlang.term_to_binary])
+#                Redix.command!(:redix, ["RPUSH", "notifs", item |> :erlang.term_to_binary])
                 item
             _ -> nil
         end
