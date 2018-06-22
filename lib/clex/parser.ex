@@ -1,7 +1,11 @@
 defmodule Clex.Parser do
+    @doc """
+    Reads in a file, formatted as following:
+    for-sale-section, keyword1[, keyword2, ...]
+    """
     def read() do
-        File.read!("craigslist")
-        |> String.split("\n", trim: true)
-        |> Enum.map(&String.split(&1, ",", trim: true))
+        File.read!(Application.get_env(:clex, :cl_file))
+        |> Poison.Parser.parse!
+        |> Map.get("items")
     end
 end

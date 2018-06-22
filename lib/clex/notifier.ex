@@ -22,6 +22,7 @@ defmodule Clex.Notifier do
         title_and_link_msg(title, link)
     end
 
+    #to fit in one text, we prioritize the link and truncate the title
     defp title_and_link_msg(title, link, offset \\ 0) do
         #160-twilio sms limit. 37-text related to trial. 2-newline
         title_length = 160 - 37 - offset - 2 - String.length(link)
@@ -31,8 +32,8 @@ defmodule Clex.Notifier do
     defp send_message(msg) do
         SmsBlitz.send_sms(
             :twilio,
-            from: System.get_env("TWILIO_SENDER"),
-            to: System.get_env("TWILIO_RECIP"),
+            from: Application.get_env(:clex, :twilio_sender),
+            to: Application.get_env(:clex, :twilio_recip),
             message: msg)
     end
 
@@ -41,6 +42,8 @@ defmodule Clex.Notifier do
         |> Enum.each(&handle_blitz_response(&1))
     end
 
+    #SmsBlitz isn't the ideal library for errors
+    #one of my phones doesn't allow texts. Twilio returned an error code but SmsBlitz returned 200
     defp handle_blitz_response(%{id: _i, result_string: _r, status_code: _sc} = map) do
         IO.inspect map
     end

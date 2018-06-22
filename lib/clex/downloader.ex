@@ -1,7 +1,7 @@
 defmodule Clex.Downloader do
 
-    def download_rss([category|keywords]) do
-        "https://portland.craigslist.org/search/#{category}?format=rss&query=#{Enum.join(keywords,"%20")}"
+    def download_rss(%{"category" => category, "city" => city, "keywords" => keywords}) do
+        "https://#{city}.craigslist.org/search/#{category}?format=rss&query=#{Enum.join(keywords,"%20")}"
         |> get_url
     end
     

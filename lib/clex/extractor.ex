@@ -1,12 +1,5 @@
 defmodule Clex.Extractor do
 
-    def extract(str) do
-        str
-        |> Floki.find(".postingtitletext")
-        |> Floki.filter_out(".banish-unbanish")
-        |> Floki.text
-    end
-
     @doc """
     grabs links from RSS (string)
     """
@@ -34,7 +27,7 @@ defmodule Clex.Extractor do
                 |> String.split(" &#x0024;") end)
             |> Enum.at(0)
         case title_and_price do
-            [title, price] -> %{price: price, title: title}
+            [title, price] -> %{price: price |> String.to_integer, title: title}
             [title] -> %{title: title}
         end
     end

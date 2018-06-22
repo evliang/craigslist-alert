@@ -21,6 +21,11 @@ use Mix.Config
 #     config :logger, level: :info
 #
 
+config :clex,
+    twilio_sender: System.get_env("TWILIO_SENDER"),
+    twilio_recip: System.get_env("TWILIO_RECIP"),
+    cl_file: System.get_env("CL_FILE")
+
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
 # by uncommenting the line below and defining dev.exs, test.exs and such.
