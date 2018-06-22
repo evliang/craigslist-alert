@@ -55,7 +55,7 @@ defmodule Clex.Periodically do
     def filter_items(to_send, %{"max_price" => max_price} = filters) do
         to_send
         |> Enum.filter(fn x ->
-            (Map.has_key?(x, :price) && x[:price] < max_price)
+            (Map.has_key?(x, :price) && x[:price] <= max_price)
             or !Map.has_key?(x, :price) end)
         |> filter_items(filters |> Map.delete("max_price"))
     end
@@ -63,7 +63,7 @@ defmodule Clex.Periodically do
     def filter_items(to_send, %{"min_price" => min_price} = filters) do
         to_send
         |> Enum.filter(fn x ->
-            (Map.has_key?(x, :price) && x[:price] > min_price)
+            (Map.has_key?(x, :price) && x[:price] >= min_price)
             or !Map.has_key?(x, :price) end)
         |> filter_items(filters |> Map.delete("min_price"))
     end
