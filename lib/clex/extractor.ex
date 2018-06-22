@@ -10,13 +10,6 @@ defmodule Clex.Extractor do
             extract_title_and_price(x)
             |> Map.put(:link, Floki.find(x, "link") |> Floki.text)
         end)
-        # rssbody
-        # |> Floki.find("items")
-        # |> Floki.find("rdf|li")
-        # |> Enum.map(fn x ->
-        #         Kernel.elem(x, 1)
-        #         |> Enum.at(0)
-        #         |> Kernel.elem(1) end)
     end
 
     defp extract_title_and_price(x) do

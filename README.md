@@ -1,10 +1,10 @@
-# CLex
+# Craigslist Alert
 
-CLex is a service that monitors and texts you about recent Craigslist listings that meet your interests. Receiving notifications reduces time spent on Craigslist, and enables you to be the first to respond.
+Craigslist Alert is a service that monitors and texts you about recent CL listings that meet your interests. Receiving notifications reduces time spent browsing Craigslist, while also enabling you to be the first to respond.
 
 ## Dependencies
 
-You need Elixir and Redis installed on your machine. You will also need a Twilio number that can send SMS.
+You need [Elixir](https://elixir-lang.org/) and [Redis](https://redis.io/) installed on your machine. You will also need a [Twilio number](https://www.twilio.com/) that can send SMS.
 
 ## Configuration
 
@@ -34,7 +34,7 @@ source .env
 
 Required fields: keywords, category, city
 
-You can determine CL categories via URLs in craigslist search, or here: https://gist.github.com/flodel/2573531#file-pick-category-r
+You can determine CL categories via URLs in craigslist search, or from [this gist](https://gist.github.com/flodel/2573531#file-pick-category-r)
 
 
 ## Development
@@ -50,9 +50,10 @@ elixir --detached -S mix run --no-halt
 ```
 
 ## Todo
-1. split up periodically
+1. refactor Periodically
 2. additional filters e.g. 3BR houses
-3. remove dependency on Redis / pure Elixir1. Option to notify via email (mailgun) and/or text
+3. move from SmsBlitz to ex_twilio
+3. remove dependency on Redis / pure Elixir. Option to notify via email (mailgun) and/or text
 4. Auto-email the poster
   --Need browser that can execute Javascript
   ----Wallaby/PhantomJS and Hound/Chrome driver both worked
