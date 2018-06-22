@@ -59,4 +59,3 @@ elixir --detached -S mix run --no-halt
   --issue right now is tricking Recaptcha
   --possibly cookie-related
   --when Recaptcha thinks I am not a bot, we can retrieve the email
-5. less customized to my current needs
