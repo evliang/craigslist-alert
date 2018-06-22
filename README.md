@@ -26,10 +26,13 @@ source .env
 4. You will need to create a JSON file (referenced above) to define the items you are interested in. Example below:
 
 ```
-{"items": [
-        {"keywords": ["king", "downsizing"], "category": "fua", "city": "portland"},
-        {"keywords": ["macbook", "dock"], "category": "syp", "city": "portland", "max_price": 55, "min_price": 3}
-]}
+{"items":
+  [
+    {"keywords": ["king", "downsizing"], "category": "fua", "city": "portland"},
+    {"keywords": ["macbook", "dock"], "category": "syp", "city": "portland", "max_price": 55, "min_price": 3},
+    {"category": "sss", "city": "portland", "keywords": ["vanity table", "mirror"]}
+  ]
+}
 ```
 
 Required fields: keywords, category, city
@@ -51,12 +54,13 @@ elixir --detached -S mix run --no-halt
 
 ## Todo
 1. refactor Periodically
-2. additional filters e.g. 3BR houses
+2. additional filters (e.g. 2mi from zipcode, 3BR house, has image)
 3. move from SmsBlitz to ex_twilio
-3. remove dependency on Redis / pure Elixir. Option to notify via email (mailgun) and/or text
-4. Auto-email the poster
+4. remove dependency on Redis / pure Elixir.
+5. Option to notify via email (mailgun) and/or text
+6. Auto-email the poster
   --Need browser that can execute Javascript
   ----Wallaby/PhantomJS and Hound/Chrome driver both worked
   --issue right now is tricking Recaptcha
   --possibly cookie-related
-  --when Recaptcha thinks I am not a bot, we can retrieve the email
+  --once Recaptcha thinks I am not a bot, we can retrieve the email
