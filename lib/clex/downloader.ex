@@ -3,18 +3,9 @@ defmodule Clex.Downloader do
     def download_rss(%{"category" => category, "city" => city, "keywords" => keywords}) do
         keyword_string =
             keywords
-            |> Enum.map(fn kw ->
-                kw = kw |> String.replace(":", "%3A") |> String.replace("/", "%2F")
-                kws = kw |> String.split(" ", trim: true)
-                case Enum.count(kws) do
-                    1 -> "#{kw}"
-                    _ ->"#{Enum.join(kws, "+")}"
-                end
-            end)
+            |> Enum.map(&handle_keywords(&1))
             |> Enum.join("+")
-        IO.inspect keyword_string
         "https://#{city}.craigslist.org/search/#{category}?format=rss&query=#{keyword_string}"
-        |> IO.inspect
         |> get_url
     end
     
@@ -56,5 +47,14 @@ defmodule Clex.Downloader do
     defp handle_poison(e) do
         IO.inspect e, label: "error handling poison"
         {:error, "Error when fetching data"}
+    end
+
+    defp handle_keywords(kw) do
+        kw = kw |> String.replace(":", "%3A") |> String.replace("/", "%2F")
+        kws = kw |> String.split(" ", trim: true)
+        case Enum.count(kws) do
+            1 -> "#{kw}"
+            _ ->"#{Enum.join(kws, "+")}"
+        end
     end
 end
