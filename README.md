@@ -1,10 +1,12 @@
 # Craigslist Alert
 
-Craigslist Alert is a service that monitors and texts you about recent CL listings that meet your interests. Receiving notifications reduces time spent browsing Craigslist, while also enabling you to be the first to respond.
+Craigslist Alert is a service that monitors CL listings and texts you of any posts that meet your interests. Receiving notifications reduces time spent browsing Craigslist, and enables you to be the first to respond.
 
 ## Dependencies
 
-You need [Elixir](https://elixir-lang.org/) and [Redis](https://redis.io/) installed on your machine. You will also need a [Twilio number](https://www.twilio.com/) that can send SMS.
+- [Elixir](https://elixir-lang.org/)
+- [Redis](https://redis.io/)
+- [Twilio](https://www.twilio.com/) account for sending SMS
 
 ## Configuration
 
@@ -52,6 +54,18 @@ mix deps.get
 elixir --detached -S mix run --no-halt
 ```
 
+### Unfrequently asked questions (UAFs)
+Q. Why?
+A: I wanted to learn Twilio. I wanted to code something simple, and have it on github.
+I also tend to get furniture used as long as it looks new. This program saved me many thousands...of seconds on Craigslist lol
+
+Q. What is "Clex"?
+A. I see it's common for some people to start or end with "Ex" for "Elixir." So it is..was..."CLex". I am awful at thinking up names on the spot.
+
+Q. What's next?
+A. I really wanted to write an auto-haggler (via email or text). I spent a day trying but I couldn't find a way to get around Google's Recaptcha (not for free, at least).
+So probably nothing for a while. I'll probably think of something the next time I move though :P
+
 ## Todo
 1. refactor Periodically
 2. additional filters (e.g. 2mi from zipcode, 3BR house, has image)
@@ -59,8 +73,7 @@ elixir --detached -S mix run --no-halt
 4. remove dependency on Redis / pure Elixir.
 5. Option to notify via email (mailgun) and/or text
 6. Auto-email the poster
-  --Need browser that can execute Javascript
-  ----Wallaby/PhantomJS and Hound/Chrome driver both worked
-  --issue right now is tricking Recaptcha
-  --possibly cookie-related
-  --once Recaptcha thinks I am not a bot, we can retrieve the email
+   - Need browser that can execute Javascript (Wallaby/PhantomJS and Hound/Chrome driver both worked)
+   - issue right now is tricking Recaptcha
+   - possibly cookie-related
+   - once Recaptcha thinks I am not a bot, we can retrieve the email
