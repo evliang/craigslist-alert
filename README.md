@@ -56,15 +56,13 @@ elixir --detached -S mix run --no-halt
 
 ### Unfrequently asked questions (UAFs)
 Q. Why?
-A: I wanted to learn Twilio. I wanted to code something simple, and have it on github.
-I also tend to get furniture used as long as it looks new. This program saved me many thousands...of seconds on Craigslist lol
+> I was moving and needed a lot of furniture. I didn't want to spend time regularly checking Craigslist. Also, I wanted to learn how to send texts with Twilio.
 
 Q. What is "Clex"?
-A. I see it's common for some people to start or end with "Ex" for "Elixir." So it is..was..."CLex". I am awful at thinking up names on the spot.
+> I see it's common for some people to start or end with "Ex" for "Elixir." So it is..was..."CLex". Not my best moment.
 
 Q. What's next?
-A. I really wanted to write an auto-haggler (via email or text). I spent a day trying but I couldn't find a way to get around Google's Recaptcha (not for free, at least).
-So probably nothing for a while. I'll probably think of something the next time I move though :P
+> I really wanted to write an auto-haggler (via email or text). I tried for a day but couldn't find a way around Google's Recaptcha (not for free, at least).
 
 ## Todo
 1. refactor Periodically
