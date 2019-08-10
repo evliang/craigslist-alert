@@ -22,11 +22,18 @@ defmodule Clex.Notifier do
         title_and_link_msg(title, link)
     end
 
-    #to fit in one text, we prioritize the link and truncate the title
+    #prioritize the link and truncate the title in order to fit into one text
     defp title_and_link_msg(title, link, offset \\ 0) do
-        #160-twilio sms limit. 37-text related to trial. 2-newline
-        title_length = 160 - 37 - offset - 2 - String.length(link)
+        # 160: twilio limit for SMS. 2: for newline
+        title_length = 160 - offset - 2 - String.length(link)
+        if is_trial_account() do
+            title_length = title_length - 37 # SMS from trial accounts contain 37 chars of additional text
+        end
         "#{String.slice(title, 0, title_length)}\n#{link}"
+    end
+
+    defp is_trial_account() do
+        Application.get_env(:clex, :twilio_trial, true)
     end
 
     defp send_message(msg) do
