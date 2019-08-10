@@ -37,6 +37,7 @@ defmodule Clex.Notifier do
     end
 
     defp send_message(msg) do
+        Logger.debug(msg)
         SmsBlitz.send_sms(
             :twilio,
             from: Application.get_env(:clex, :twilio_sender),

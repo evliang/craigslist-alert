@@ -21,6 +21,12 @@ use Mix.Config
 #     config :logger, level: :info
 #
 
+config :logger,
+    level: :debug,
+    backends: [{LoggerFileBackend, :error_log}]
+
+config :logger, :error_log, path: 'log/error.log'
+
 config :clex,
     twilio_sender: System.get_env("TWILIO_SENDER"),
     twilio_recip: System.get_env("TWILIO_RECIP"),

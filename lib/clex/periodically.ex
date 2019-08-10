@@ -33,6 +33,7 @@ defmodule Clex.Periodically do
         {:noreply, state}
     end
 
+    # this shouldn't be hit, and serves as a safeguard. With "Let it Crash", does that make this bad practice?
     def handle_info(part1, state) do
       IO.inspect part1, label: "handle_info1"
       IO.inspect state, label: "handle_info2"
