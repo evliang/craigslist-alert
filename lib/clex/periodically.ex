@@ -14,7 +14,6 @@ defmodule Clex.Periodically do
     def handle_info(:fetchrss, state) do
         #todo: Parser.read -> add items to queue
         Clex.Parser.parse_file()
-        |> Clex.Parser.mark_new()
         |> Enum.each(fn x ->
             Clex.Downloader.download_rss(x)
             |> Clex.Extractor.extract_links_from_rss

@@ -1,4 +1,6 @@
 defmodule Clex.Notifier do
+    require Logger
+
     def notify() do
         Redix.command!(:redix, ["LPOP", "notifs"])
         |> handle_redis_response
@@ -9,13 +11,15 @@ defmodule Clex.Notifier do
     defp handle_redis_response(binary) do
         binary
         |> :erlang.binary_to_term
+        |> IO.inspect
         |> create_message
         |> send_message
         |> handle_blitz_response
     end
 
     defp create_message(%{price: price, title: title, link: link}) do
-        "$#{price} - #{title_and_link_msg(title, link, String.length(price) + 4)}"
+        price_len = String.length("#{price}")
+        "$#{price} - #{title_and_link_msg(title, link, price_len + 4)}"
     end
 
     defp create_message(%{title: title, link: link}) do
@@ -23,12 +27,14 @@ defmodule Clex.Notifier do
     end
 
     #prioritize the link and truncate the title in order to fit into one text
-    defp title_and_link_msg(title, link, offset \\ 0) do
-        # 160: twilio limit for SMS. 2: for newline
-        title_length = 160 - offset - 2 - String.length(link)
-        if is_trial_account() do
-            title_length = title_length - 37 # SMS from trial accounts contain 37 chars of additional text
-        end
+    def title_and_link_msg(title, link, offset \\ 0) do
+        # todo: fix - hardcoding all over. 160: twilio limit for SMS. 2: for newline. 37: SMS from trial accounts contain 37 chars of additional text
+        title_length =
+            if is_trial_account() do
+                160 - offset - 2 - String.length(link)
+            else
+                160 - offset - 2 - String.length(link) - 37
+            end
         "#{String.slice(title, 0, title_length)}\n#{link}"
     end
 

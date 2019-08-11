@@ -6,6 +6,8 @@ defmodule Clex.Parser do
         File.read!(Application.get_env(:clex, :cl_file))
         |> Poison.Parser.parse!
         |> Map.get("items")
+        |> Enum.map(fn x -> Map.put_new(x, "category", "sss") end)
+        |> mark_new
     end
 
     @doc """

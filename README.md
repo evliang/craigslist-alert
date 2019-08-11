@@ -1,21 +1,27 @@
-# Craigslist Alert is a service that...
+# Purpose and Origin of this Application
 
-...monitors Craigslist and texts you of any listings that meet your interests. I created it a year ago when I moved and needed a lot of furniture, and I still use it to get notified of all kinds of electronics, toys, gadgets and random other items. For me, it alerts me to deals/items that I seek, enables me to act quickly, and saves me from wasting too much time on Craigslist.
+There was a time when I needed items to furnish an Airbnb. I grew frustrated with missing out on good deals on nice furniture, but did not wish to browse Craigslist multiple times a day.
+
+So I created a service to send me a text whenever a CL post matches my interests.
+
+A year later, I still use this application to get notified of electronics, toys and all kinds of gadgets. It alerts me to deals that I seek, enables me to act quickly, and saves me from wasting time on Craigslist. I hope that you can make use of this as well.
 
 ## Dependencies
+
 There are three dependencies you need to set this up on your own machine:
-- [Elixir](https://elixir-lang.org/) environment. It's viewed by most as "the next Ruby" but I think of it more as "the next Python"
-- [Redis](https://redis.io/) for caching
-- [Twilio](https://www.twilio.com/) account for sending SMS. The trial account I created lasted me a year's worth of texts
+- [Elixir](https://elixir-lang.org/install.html#distributions) environment. It's considered to be "the next Ruby" but I view it more as "the next Python"
+- [Redis](https://redis.io/download) for in-memory database
+- [Twilio](https://www.twilio.com/try-twilio) account for sending SMS. The trial account that I created lasted me 11 months
 
 ## The Code
 
-If you are interested in learning Elixir, I think that this may a good application to peruse. The domain is simple enough to focus on the components and the big picture.
+If you are interested in learning Elixir, this may be a good application to peruse. The domain is simple enough to focus on the components and the big picture.
 
-But here's a quick intro for where to start:
+Here's a quick overview of the main modules:
 - parser.ex takes the configuration file (discussed next) and turns it into a more computer-friendly format
-- notifier.ex sends you the text (todo: email)
-- storer.ex keeps tabs on previously-seen items, in order to prevent duplicate notifications, and prevent initial flooding of texts when adding new items-to-monitor to the config
+- downloader.ex and extractor.ex fetch and transform the relevant Craigslist posts
+- storer.ex keeps tabs on previously-seen items. This is for handling new config entries, and for preventing duplicate notifications
+- notifier.ex sends the text
 - periodically.ex is the heartbeat of the application
 
 I hope you find this code easy to read despite being new to Elixir. Let me know if you have any questions that I can answer.
@@ -24,20 +30,17 @@ I hope you find this code easy to read despite being new to Elixir. Let me know 
 
 1. Configuration is done with a JSON file
 
-Required fields: keywords, category, city
-Optional fields: min_price, max_price
+Required fields: keywords, city
+Optional fields: category, min_price, max_price, postal, search_distance, titleOnly, hasPic
 
 An example of a configuration file:
 ```
 {"items":
   [ 
-    {"keywords": ["iPhone", "8 plus", "64GB", "-sprint", "-verizon"], "category": "sss", "city": "portland", "min_price": 300, "max_price": 380},
-    {"keywords": ["iPhone", "8 plus", "64GB", "unlocked"], "category": "sss", "city": "portland", "min_price": 300, "max_price": 380},
-    {"keywords": ["iPhone", "8 plus", "64GB", "T-Mobile"], "category": "sss", "city": "portland", "min_price": 300, "max_price": 380},
-    {"keywords": ["lexus", "rx", "350", "2016", "-McLoughlin Chevrolet"], "category": "cta", "city": "portland", "min_price": 30000, "max_price": 39000},
-    {"keywords": ["king", "downsizing"], "category": "fua", "city": "portland"},
-    {"keywords": ["macbook", "dock"], "category": "syp", "city": "portland", "max_price": 55, "min_price": 5},
-    {"category": "sss", "city": "portland", "keywords": ["steelcase", "leap", "-Liquidations"], "max_price": 200}
+    {"keywords": ["iPhone", "8 plus", "64GB", "unlocked"], "city": "portland", "min_price": 300, "max_price": 380},
+    {"keywords": ["iPhone", "8 plus", "64GB", "T-Mobile"], "city": "portland", "min_price": 300, "max_price": 380},
+    {"keywords": ["lexus", "rx", "350", "2016"], "category": "cta", "city": "portland", "min_price": 30000, "max_price": 39000, "titleOnly": true, "postal": 97204, "search_distance": 90},
+    {"city": "portland", "category": "fua", "keywords": ["king", "downsizing"]}
   ]
 }
 ```
@@ -75,9 +78,6 @@ elixir --detached -S mix run --no-halt
 ## Backlog
 send confirmation text when new items are added to the config
 config (optional, per-listing):
-  has image
-  title only
-  miles from zip
   email, text or both
   allow multiple categories
 send email (via mailgun)
@@ -85,3 +85,5 @@ code to easily query Redis for most-recent data
 refactor
 Redis => ETS?
 scale?
+
+8501 NE 60th St

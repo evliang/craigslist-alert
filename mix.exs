@@ -22,6 +22,7 @@ defmodule Clex.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:logger_file_backend, ">= 0.0.11"},
       {:poison, ">= 3.1.0"},
       {:redix, ">= 0.0.0 "},
       {:httpoison, ">= 1.2.0", override: true},

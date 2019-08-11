@@ -1,11 +1,32 @@
 defmodule Clex.Downloader do
 
-    def download_rss(%{"category" => category, "city" => city, "keywords" => keywords}) do
+    @approved_filters MapSet.new(["min_price", "max_price", "postal", "search_distance", "srchType", "hasPic"])
+
+    def download_rss(%{"hasPic" => true} = config_map) do
+        config_map
+        |> Map.put("hasPic", 1)
+        |> download_rss
+    end
+    def download_rss(%{"titleOnly" => true} = config_map) do
+        config_map
+        |> Map.delete("titleOnly")
+        |> Map.put("srchType", "T")
+        |> download_rss
+    end
+
+    def download_rss(%{"category" => category, "city" => city, "keywords" => keywords} = config_map) do
         keyword_string =
             keywords
             |> Enum.map(&handle_keywords(&1))
             |> Enum.join("+")
-        "https://#{city}.craigslist.org/search/#{category}?format=rss&query=#{keyword_string}"
+        # extracts filters from config map and converts to string
+        extra_filters =
+            MapSet.intersection(config_map |> Map.keys |> MapSet.new, @approved_filters)
+            |> (&Map.take(config_map, &1)).()
+            |> Enum.map(fn {k, v} -> "&#{k}=#{v}" end)
+            |> Enum.join
+        "https://#{city}.craigslist.org/search/#{category}?format=rss&query=#{keyword_string}#{extra_filters}"
+        |> IO.inspect
         |> get_url
     end
     
