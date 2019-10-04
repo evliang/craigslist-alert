@@ -12,8 +12,10 @@ defmodule Clex.Storer do
     def store(%{link: link} = item, opt) do
         if is_link_new(link) do
             add_link_to_set(link)
-            if opt and is_map(opt) and Map.get(opt, "is_new", false) == false do
-                queue_notification(item)
+            if opt != nil and is_map(opt) and not Map.get(opt, "is_new", false) do
+                item
+                |> Map.put(:phone_num, Map.get(opt, "phone_num", Application.get_env(:clex, :twilio_recip)))
+                |> queue_notification
             end
         end
     end
@@ -27,7 +29,6 @@ defmodule Clex.Storer do
     end
 
     defp queue_notification(item) do
-        notification_binary = item |> Map.put_new("phone_num", Application.get_env(:clex, :twilio_recip)) |> :erlang.term_to_binary
-        Redix.command!(:redix, ["RPUSH", "notifs", notification_binary ])
+        Redix.command!(:redix, ["RPUSH", "notifs", item |> :erlang.term_to_binary ])
     end
 end

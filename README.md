@@ -1,10 +1,10 @@
 # Origins
 
-Once upon a time, I needed to furnish an Airbnb. I grew frustrated with missing out on good deals on nice furniture, but did not wish to browse Craigslist multiple times a day.
+Once upon a time, I needed to furnish a rental property. I wanted great deals on nice furniture, but did not wish to spend time browsing Craigslist.
 
-So I created a service to send me a text whenever a CL post matched my interests.
+So I created a service to text me whenever a CL post matched my interests.
 
-A year later, I still use this application to get notified of electronics, gadgets and misc free stuff. It alerts me to deals that I seek, enables me to act quickly, and saves me from wasting time on Craigslist. I hope that you can make use of this as well.
+Now, I still use this application to get notified of deals on electronics, gadgets and misc free stuff. I am able to act quickly, while not wasting too much of my time. I hope that you can make use of this as well.
 
 ## Dependencies
 
@@ -16,10 +16,10 @@ There are three dependencies required for execution:
 ## The Code
 
 Here's a quick overview of the main modules:
-- parser.ex takes the configuration file (discussed next) and turns it into a more computer-friendly format
+- parser.ex takes the watchlist file (discussed next) and turns it into a more computer-friendly format
 - downloader.ex and extractor.ex fetch and transform the relevant Craigslist posts
-- storer.ex keeps tabs on previously-seen items. This is for handling new config entries, and for preventing duplicate notifications
-- notifier.ex sends the text
+- storer.ex keeps a record of previously-seen items, which prevents duplicate notifications, and mass spamming when new entries are added to the watchlist
+- notifier.ex generates and sends the text
 - periodically.ex is the heartbeat of the application
 
 ## Configuration
