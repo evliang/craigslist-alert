@@ -27,6 +27,7 @@ defmodule Clex.Storer do
     end
 
     defp queue_notification(item) do
-        Redix.command!(:redix, ["RPUSH", "notifs", item |> :erlang.term_to_binary])
+        notification_binary = item |> Map.put_new("phone_num", Application.get_env(:clex, :twilio_recip)) |> :erlang.term_to_binary
+        Redix.command!(:redix, ["RPUSH", "notifs", notification_binary ])
     end
 end

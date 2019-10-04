@@ -1,21 +1,19 @@
-# Purpose and Origin of this Application
+# Origins
 
-There was a time when I needed items to furnish an Airbnb. I grew frustrated with missing out on good deals on nice furniture, but did not wish to browse Craigslist multiple times a day.
+Once upon a time, I needed to furnish an Airbnb. I grew frustrated with missing out on good deals on nice furniture, but did not wish to browse Craigslist multiple times a day.
 
-So I created a service to send me a text whenever a CL post matches my interests.
+So I created a service to send me a text whenever a CL post matched my interests.
 
-A year later, I still use this application to get notified of electronics, toys and all kinds of gadgets. It alerts me to deals that I seek, enables me to act quickly, and saves me from wasting time on Craigslist. I hope that you can make use of this as well.
+A year later, I still use this application to get notified of electronics, gadgets and misc free stuff. It alerts me to deals that I seek, enables me to act quickly, and saves me from wasting time on Craigslist. I hope that you can make use of this as well.
 
 ## Dependencies
 
-There are three dependencies you need to set this up on your own machine:
-- [Elixir](https://elixir-lang.org/install.html#distributions) environment. It's considered to be "the next Ruby" but I view it more as "the next Python"
+There are three dependencies required for execution:
+- [Elixir](https://elixir-lang.org/install.html#distributions) environment. It's hailed as "the next Ruby" but I view it more as "the next Python"
 - [Redis](https://redis.io/download) for in-memory database
 - [Twilio](https://www.twilio.com/try-twilio) account for sending SMS. The trial account that I created lasted me 11 months
 
 ## The Code
-
-If you are interested in learning Elixir, this may be a good application to peruse. The domain is simple enough to focus on the components and the big picture.
 
 Here's a quick overview of the main modules:
 - parser.ex takes the configuration file (discussed next) and turns it into a more computer-friendly format
@@ -23,8 +21,6 @@ Here's a quick overview of the main modules:
 - storer.ex keeps tabs on previously-seen items. This is for handling new config entries, and for preventing duplicate notifications
 - notifier.ex sends the text
 - periodically.ex is the heartbeat of the application
-
-I hope you find this code easy to read despite being new to Elixir. Let me know if you have any questions that I can answer.
 
 ## Configuration
 
@@ -82,8 +78,5 @@ config (optional, per-listing):
   allow multiple categories
 send email (via mailgun)
 code to easily query Redis for most-recent data
-refactor
 Redis => ETS?
 scale?
-
-8501 NE 60th St

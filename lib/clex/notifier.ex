@@ -17,13 +17,14 @@ defmodule Clex.Notifier do
         |> handle_blitz_response
     end
 
-    defp create_message(%{price: price, title: title, link: link}) do
+    defp create_message(%{price: price, title: title, link: link} = info) do
         price_len = String.length("#{price}")
-        "$#{price} - #{title_and_link_msg(title, link, price_len + 4)}"
+        info
+        |> Map.put("message", "$#{price} - #{title_and_link_msg(title, link, price_len + 4)}")
     end
 
-    defp create_message(%{title: title, link: link}) do
-        title_and_link_msg(title, link)
+    defp create_message(%{title: title, link: link} = info) do
+        Map.put(info, "message", title_and_link_msg(title, link))
     end
 
     #prioritize the link and truncate the title in order to fit into one text
@@ -42,12 +43,13 @@ defmodule Clex.Notifier do
         Application.get_env(:clex, :twilio_trial, true)
     end
 
-    defp send_message(msg) do
+    defp send_message(info) do
+        msg = Map.get(info, "message")
         Logger.debug(msg)
         SmsBlitz.send_sms(
             :twilio,
             from: Application.get_env(:clex, :twilio_sender),
-            to: Application.get_env(:clex, :twilio_recip),
+            to: Map.get("phone_num", Application.get_env(:clex, :twilio_recip)),
             message: msg)
     end
 
