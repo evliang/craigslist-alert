@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Craigslist shut down their RSS feed in October 2020, which prevents this application from working. It appears that they have also blocked scraping from EC2 machines, so this project is deprecated (until downloader.ex is rewritten)
+
 # Origins
 
 Once upon a time, I needed to furnish a rental property. I wanted great deals on nice furniture, but did not wish to spend time browsing Craigslist.
